@@ -1,0 +1,1388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kura — La memoria de tu salud</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #eef1fb;
+      --surface: rgba(255, 255, 255, 0.72);
+      --surface-strong: #ffffff;
+      --text: #1a2758;
+      --muted: #6674a8;
+      --primary: #2f4aa1;
+      --primary-dark: #1f2d6b;
+      --accent: #ff4f8b;
+      --line: rgba(47, 74, 161, 0.12);
+      --shadow: 0 20px 60px rgba(26, 39, 88, 0.12);
+      --shadow-soft: 0 14px 34px rgba(26, 39, 88, 0.08);
+      --radius-xl: 32px;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --max: 1240px;
+      --nav-h: 84px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: 'Inter', system-ui, sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(255, 79, 139, 0.09), transparent 20%),
+        radial-gradient(circle at 85% 15%, rgba(47, 74, 161, 0.14), transparent 24%),
+        linear-gradient(180deg, #f4f6fd 0%, #edf1fb 100%);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(14px);
+      background: rgba(244, 246, 253, 0.72);
+      border-bottom: 1px solid rgba(47, 74, 161, 0.08);
+    }
+
+    .topbar__inner {
+      min-height: var(--nav-h);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      font-size: 1.35rem;
+    }
+
+    .brand svg {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .nav a:hover { color: var(--primary-dark); }
+
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      border: 0;
+      border-radius: 999px;
+      padding: 15px 24px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .btn--primary {
+      color: white;
+      background: linear-gradient(135deg, #3f63db 0%, var(--primary) 65%, var(--primary-dark) 100%);
+      box-shadow: 0 16px 34px rgba(47, 74, 161, 0.28);
+    }
+
+    .btn--secondary {
+      color: var(--primary-dark);
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(47, 74, 161, 0.12);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .btn--ghost {
+      color: var(--primary-dark);
+      background: transparent;
+      padding-inline: 12px;
+    }
+
+    .hero {
+      position: relative;
+      padding: 52px 0 48px;
+    }
+
+    .hero__shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 40px;
+      align-items: center;
+      min-height: calc(100vh - var(--nav-h) - 56px);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      color: var(--primary-dark);
+      font-size: .92rem;
+      font-weight: 600;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .eyebrow::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 8px rgba(255, 79, 139, 0.12);
+    }
+
+    h1 {
+      margin: 18px 0 18px;
+      font-size: clamp(3rem, 7vw, 6.2rem);
+      line-height: 0.95;
+      letter-spacing: -0.07em;
+      max-width: 10ch;
+    }
+
+    .hero p {
+      margin: 0;
+      font-size: clamp(1.05rem, 1.6vw, 1.28rem);
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 60ch;
+    }
+
+    .hero__cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    .hero__proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 28px;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .hero__proof span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .hero__proof span::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #7bd9b0;
+    }
+
+    .phone-showcase {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 720px;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(30px);
+      opacity: 0.65;
+      pointer-events: none;
+    }
+
+    .orb--one {
+      width: 260px;
+      height: 260px;
+      background: rgba(255, 79, 139, 0.18);
+      top: 70px;
+      left: 20px;
+      animation: drift 9s ease-in-out infinite;
+    }
+
+    .orb--two {
+      width: 320px;
+      height: 320px;
+      background: rgba(47, 74, 161, 0.16);
+      right: 12px;
+      bottom: 80px;
+      animation: drift 10s ease-in-out infinite reverse;
+    }
+
+    @keyframes drift {
+      0%, 100% { transform: translateY(0) translateX(0); }
+      50% { transform: translateY(-18px) translateX(12px); }
+    }
+
+    .phone-stack {
+      position: relative;
+      width: min(100%, 540px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      perspective: 1200px;
+    }
+
+    .phone-card {
+      position: absolute;
+      width: 330px;
+      height: 670px;
+      border-radius: 42px;
+      overflow: hidden;
+      background: #dfe5fb;
+      box-shadow: 0 28px 70px rgba(28, 41, 93, 0.24);
+      border: 10px solid #18203b;
+      transition: transform .6s ease, opacity .6s ease;
+    }
+
+    .phone-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 42%;
+      height: 28px;
+      transform: translateX(-50%);
+      background: #18203b;
+      border-bottom-left-radius: 22px;
+      border-bottom-right-radius: 22px;
+      z-index: 2;
+    }
+
+    .phone-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .phone-card--back {
+      transform: translateX(-90px) rotate(-12deg) scale(.92);
+      opacity: .55;
+      z-index: 1;
+    }
+
+    .phone-card--mid {
+      transform: translateX(72px) rotate(10deg) scale(.96);
+      opacity: .7;
+      z-index: 2;
+    }
+
+    .phone-card--front {
+      position: relative;
+      z-index: 4;
+      transform: translateY(0) scale(1.02);
+    }
+
+    .section {
+      padding: 110px 0;
+    }
+
+    .section__head {
+      margin-bottom: 32px;
+      max-width: 780px;
+    }
+
+    .section__head h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .section__head p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.08rem;
+    }
+
+    .scan-story {
+      display: grid;
+      grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
+      gap: 36px;
+      align-items: start;
+    }
+
+    .story-copy {
+      position: sticky;
+      top: calc(var(--nav-h) + 28px);
+    }
+
+    .steps {
+      display: grid;
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .step {
+      padding: 20px 22px;
+      border-radius: 22px;
+      border: 1px solid rgba(47, 74, 161, 0.1);
+      background: rgba(255,255,255,0.56);
+      box-shadow: var(--shadow-soft);
+      transition: border-color .25s ease, background .25s ease, transform .25s ease;
+      cursor: pointer;
+    }
+
+    .step:hover { transform: translateY(-2px); }
+
+    .step.active {
+      background: rgba(255,255,255,0.94);
+      border-color: rgba(255, 79, 139, 0.24);
+    }
+
+    .step__index {
+      font-size: .85rem;
+      color: var(--accent);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .step h3 {
+      margin: 6px 0 8px;
+      font-size: 1.14rem;
+      letter-spacing: -0.03em;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: .98rem;
+    }
+
+    .story-stage {
+      position: relative;
+      min-height: 950px;
+    }
+
+    .story-phone {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      width: min(100%, 460px);
+      margin: 0 auto;
+      height: 820px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .story-phone__frame {
+      position: relative;
+      width: 380px;
+      height: 760px;
+      border-radius: 44px;
+      overflow: hidden;
+      border: 10px solid #18203b;
+      box-shadow: 0 28px 70px rgba(28, 41, 93, 0.22);
+      background: #dfe5fb;
+    }
+
+    .story-phone__frame::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      width: 42%;
+      height: 28px;
+      transform: translateX(-50%);
+      background: #18203b;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      z-index: 3;
+    }
+
+    .story-image {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transform: scale(1.03);
+      transition: opacity .45s ease, transform .55s ease;
+    }
+
+    .story-image.active {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    .benefits {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .benefit {
+      background: rgba(255,255,255,0.8);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+      min-height: 290px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .benefit__tag {
+      display: inline-block;
+      font-size: .85rem;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .benefit h3 {
+      margin: 0 0 12px;
+      font-size: 1.5rem;
+      letter-spacing: -0.04em;
+      max-width: 10ch;
+    }
+
+    .benefit p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.85;
+      max-width: 34ch;
+    }
+
+    .benefit__bar {
+      width: 100%;
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(255, 79, 139, 0.8), rgba(47, 74, 161, 0.95));
+      margin-top: 28px;
+      opacity: .75;
+    }
+
+    .gallery {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .gallery__track {
+      display: flex;
+      gap: 22px;
+      width: max-content;
+      animation: marquee 38s linear infinite;
+      padding-right: 22px;
+    }
+
+    .gallery:hover .gallery__track { animation-play-state: paused; }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    .gallery-card {
+      width: 275px;
+      border-radius: 34px;
+      background: rgba(255,255,255,0.75);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      padding: 14px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .gallery-card img {
+      border-radius: 24px;
+      width: 100%;
+      aspect-ratio: 9 / 19.5;
+      object-fit: cover;
+      background: #dde4fb;
+    }
+
+    .compare {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 24px;
+    }
+
+    .compare-card {
+      padding: 30px;
+      border-radius: 30px;
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      min-height: 340px;
+    }
+
+    .compare-card--chaos {
+      background: linear-gradient(180deg, #fff4f8 0%, #fff 100%);
+    }
+
+    .compare-card--order {
+      background: linear-gradient(180deg, #f7f9ff 0%, #fff 100%);
+    }
+
+    .compare-card h3 {
+      margin: 0 0 20px;
+      font-size: 1.7rem;
+      letter-spacing: -0.04em;
+    }
+
+    .chaos-list,
+    .order-list {
+      display: grid;
+      gap: 16px;
+    }
+
+    .chaos-item,
+    .order-item {
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-weight: 600;
+    }
+
+    .chaos-item {
+      background: rgba(255, 79, 139, 0.1);
+      color: #8e3359;
+      border: 1px dashed rgba(255, 79, 139, 0.3);
+    }
+
+    .order-item {
+      background: rgba(47, 74, 161, 0.06);
+      color: var(--primary-dark);
+      border: 1px solid rgba(47, 74, 161, 0.12);
+    }
+
+    .cta-band {
+      padding: 90px 0 120px;
+    }
+
+    .cta-card {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(145deg, #2f4aa1 0%, #24357b 55%, #192550 100%);
+      color: white;
+      border-radius: 38px;
+      padding: 54px;
+      box-shadow: 0 26px 70px rgba(31, 45, 107, 0.38);
+    }
+
+    .cta-card::before,
+    .cta-card::after {
+      content: '';
+      position: absolute;
+      border-radius: 999px;
+      pointer-events: none;
+      opacity: .26;
+      filter: blur(18px);
+    }
+
+    .cta-card::before {
+      width: 220px;
+      height: 220px;
+      background: rgba(255, 79, 139, 0.48);
+      right: -40px;
+      top: -40px;
+    }
+
+    .cta-card::after {
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,0.12);
+      left: -40px;
+      bottom: -70px;
+    }
+
+    .cta-card h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2.2rem, 4vw, 4.3rem);
+      line-height: .98;
+      letter-spacing: -0.06em;
+      max-width: 11ch;
+    }
+
+    .cta-card p {
+      margin: 0;
+      color: rgba(255,255,255,0.8);
+      line-height: 1.85;
+      max-width: 58ch;
+      font-size: 1.06rem;
+    }
+
+    .cta-card__actions {
+      margin-top: 28px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .cta-card .btn--secondary {
+      color: white;
+      border-color: rgba(255,255,255,0.14);
+      background: rgba(255,255,255,0.08);
+      box-shadow: none;
+    }
+
+    footer {
+      padding: 0 0 36px;
+      color: var(--muted);
+    }
+
+    .footer-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      border-top: 1px solid rgba(47, 74, 161, 0.1);
+      padding-top: 28px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 1100px) {
+      .hero__shell,
+      .scan-story,
+      .benefits,
+      .compare {
+        grid-template-columns: 1fr;
+      }
+
+      .story-copy,
+      .story-phone {
+        position: relative;
+        top: 0;
+      }
+
+      .story-stage { min-height: auto; }
+      .story-phone { height: auto; margin-top: 24px; }
+      .phone-showcase { min-height: 620px; }
+      .benefit { min-height: 0; }
+    }
+
+        .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .price-card {
+      position: relative;
+      background: rgba(255,255,255,0.82);
+      border: 1px solid rgba(47, 74, 161, 0.1);
+      border-radius: 30px;
+      padding: 30px;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-height: 100%;
+    }
+
+    .price-card--featured {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, #f7f9ff 100%);
+      border-color: rgba(47, 74, 161, 0.2);
+      box-shadow: 0 24px 50px rgba(47, 74, 161, 0.14);
+    }
+
+    .price-badge {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255, 79, 139, 0.12);
+      color: var(--accent);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .price-plan {
+      font-size: 1.55rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin: 0;
+    }
+
+    .price-desc {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.98rem;
+    }
+
+    .price-amount {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .price-amount strong {
+      font-size: 2.7rem;
+      line-height: 1;
+      letter-spacing: -0.06em;
+    }
+
+    .price-amount span {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .price-note {
+      margin: -6px 0 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .price-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .price-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      color: var(--primary-dark);
+      line-height: 1.65;
+      font-weight: 500;
+    }
+
+    .price-list li::before {
+      content: '';
+      width: 10px;
+      height: 10px;
+      flex: 0 0 10px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--accent), var(--primary));
+      box-shadow: 0 0 0 7px rgba(47, 74, 161, 0.08);
+    }
+
+    .pricing-footnote {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 0.96rem;
+      line-height: 1.75;
+      max-width: 70ch;
+    }
+
+    .investor-panel {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(280px, 0.95fr);
+      gap: 24px;
+      align-items: stretch;
+      background: rgba(255,255,255,0.84);
+      border: 1px solid rgba(47, 74, 161, 0.1);
+      border-radius: 34px;
+      padding: 34px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .investor-panel__copy h3 {
+      margin: 0 0 12px;
+      font-size: clamp(1.8rem, 3vw, 2.7rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .investor-panel__copy p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.85;
+      font-size: 1.04rem;
+    }
+
+    .investor-points {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+
+    .investor-points div {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(47, 74, 161, 0.05);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      color: var(--primary-dark);
+      font-weight: 600;
+      line-height: 1.65;
+    }
+
+    .investor-panel__cta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 14px;
+      border-radius: 26px;
+      background: linear-gradient(160deg, #f7f9ff 0%, #ffffff 100%);
+      border: 1px solid rgba(47, 74, 161, 0.08);
+      padding: 26px;
+    }
+
+    .investor-panel__cta h4 {
+      margin: 0;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+
+    .investor-panel__cta p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.98rem;
+    }
+
+    .investor-mini {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 760px) {
+      :root { --nav-h: 74px; }
+      .container { width: min(calc(100% - 24px), var(--max)); }
+      .nav { display: none; }
+      .topbar__inner { gap: 10px; }
+      .actions .btn--secondary { display: none; }
+      .hero { padding-top: 28px; }
+      .hero__shell { gap: 26px; min-height: auto; }
+      h1 { max-width: 12ch; }
+      .phone-showcase { min-height: 520px; }
+      .phone-card { width: 260px; height: 530px; border-width: 8px; }
+      .phone-card::before,
+      .story-phone__frame::before { height: 24px; }
+      .story-phone__frame { width: 300px; height: 600px; border-width: 8px; }
+      .cta-card { padding: 34px 24px; border-radius: 28px; }
+      .gallery-card { width: 220px; }
+      .section { padding: 84px 0; }
+            .pricing-grid,
+      .investor-panel { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <a href="#top" class="brand" aria-label="Kura">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="16" cy="12" r="4.5" fill="#fff"/>
+          <circle cx="16" cy="52" r="4.5" fill="#fff"/>
+          <circle cx="54" cy="12" r="4.5" fill="#fff"/>
+          <circle cx="54" cy="52" r="4.5" fill="#fff"/>
+          <path d="M16 16V48" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+          <path d="M16 32L54 12" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+          <path d="M34 24L54 52" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+        </svg>
+        <span>Kura</span>
+      </a>
+
+      <nav class="nav">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#app">La app</a>
+        <a href="#beneficios">Beneficios</a>
+        <a href="#pricing">Planes</a>
+        <a href="#inversion">Inversión</a>
+      </nav>
+
+      <div class="actions">
+        <a class="btn btn--ghost" href="#app">Ver pantallas</a>
+        <a class="btn btn--primary" href="#cta">Crear mi historial</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero__shell">
+        <div data-reveal>
+          <span class="eyebrow">Archivo médico personal para pacientes</span>
+          <h1>La memoria de tu salud.</h1>
+          <p>
+            Kura guarda, organiza y reconstruye tu historial médico a partir de recetas, estudios y documentos reales.
+            Sin carpetas perdidas, sin WhatsApps imposibles de encontrar, sin volver a contar tu historia desde cero.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#cta">Crear mi historial médico</a>
+            <a class="btn btn--secondary" href="#como-funciona">Ver cómo funciona</a>
+          </div>
+          <div class="hero__proof">
+            <span>Privado y cifrado</span>
+            <span>Compartible con profesionales de la salud</span>
+            <span>Diseñado para pacientes, no para hospitales</span>
+          </div>
+        </div>
+
+        <div class="phone-showcase" data-reveal>
+          <div class="orb orb--one"></div>
+          <div class="orb orb--two"></div>
+          <div class="phone-stack">
+            <div class="phone-card phone-card--back">
+              <img src="./04-wf-kura.png" alt="Vista previa de Kura: dashboard" />
+            </div>
+            <div class="phone-card phone-card--mid">
+              <img src="./10-wf-kura.png" alt="Vista previa de Kura: historial clínico" />
+            </div>
+            <div class="phone-card phone-card--front">
+              <img src="./01-wf-kura.png" alt="Vista previa de Kura: pantalla inicial" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="como-funciona" class="section">
+      <div class="container scan-story">
+        <div class="story-copy" data-reveal>
+          <div class="section__head">
+            <h2>Tu historia médica, reconstruida paso a paso.</h2>
+            <p>
+              En vez de prometer magia rara, Kura muestra un proceso claro: escaneas un documento,
+              extrae lo importante y lo convierte en una parte útil de tu historial.
+            </p>
+          </div>
+
+          <div class="steps">
+            <article class="step active" data-step="0">
+              <div class="step__index">Paso 01</div>
+              <h3>Empiezas con algo real</h3>
+              <p>Una receta, un estudio, un resultado de laboratorio. Kura parte de documentos que ya forman parte de tu vida.</p>
+            </article>
+
+            <article class="step" data-step="1">
+              <div class="step__index">Paso 02</div>
+              <h3>Escaneas desde tu celular</h3>
+              <p>Enfocas el documento, revisas la captura y decides qué guardar. Sin procesos eternos ni interfaces de hospital viejo.</p>
+            </article>
+
+            <article class="step" data-step="2">
+              <div class="step__index">Paso 03</div>
+              <h3>Kura organiza la información</h3>
+              <p>La app interpreta fechas, medicamentos, notas y datos relevantes para volverlos una parte navegable de tu historial.</p>
+            </article>
+
+            <article class="step" data-step="3">
+              <div class="step__index">Paso 04</div>
+              <h3>Tu resumen queda listo</h3>
+              <p>Ya no cargas con papeles sueltos. Tienes una memoria médica personal que puedes consultar y compartir cuando la necesites.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="story-stage">
+          <div class="story-phone" data-reveal>
+            <div class="story-phone__frame">
+              <img class="story-image active" src="./06-wf-kura.png" alt="Kura mostrando el tutorial de escaneo" />
+              <img class="story-image" src="./08-wf-kura.png" alt="Kura mostrando la captura del documento" />
+              <img class="story-image" src="./09-wf-kura.png" alt="Kura procesando la receta médica" />
+              <img class="story-image" src="./10-wf-kura.png" alt="Kura mostrando el análisis completado" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="beneficios" class="section">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <h2>No guardas archivos. Recuperas contexto.</h2>
+          <p>
+            Kura no compite por verse “tech”. Compite por ser útil cuando realmente importa: en una consulta,
+            en urgencias o cuando necesitas recordar algo que ya no tienes a la mano.
+          </p>
+        </div>
+
+        <div class="benefits">
+          <article class="benefit" data-reveal>
+            <div>
+              <span class="benefit__tag">Privacidad real</span>
+              <h3>Tus documentos ya no viven en el caos.</h3>
+              <p>
+                Nada de recetas perdidas en chats, correos o carpetas improvisadas. Tu información médica vive en un espacio privado y ordenado.
+              </p>
+            </div>
+            <div class="benefit__bar"></div>
+          </article>
+
+          <article class="benefit" data-reveal>
+            <div>
+              <span class="benefit__tag">Disponibilidad</span>
+              <h3>Tu historial te acompaña.</h3>
+              <p>
+                Vas con un médico, dentista, ortopedista o cualquier especialista. Kura te permite llegar con contexto y no con memoria improvisada.
+              </p>
+            </div>
+            <div class="benefit__bar"></div>
+          </article>
+
+          <article class="benefit" data-reveal>
+            <div>
+              <span class="benefit__tag">Control</span>
+              <h3>Compartes solo cuando tú decides.</h3>
+              <p>
+                Tu información es tuya. Kura está diseñada para que el paciente sea dueño de su historia médica y la use con criterio.
+              </p>
+            </div>
+            <div class="benefit__bar"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <h2>Planes claros desde el inicio.</h2>
+          <p>
+            Kura empieza contigo. Puedes usarlo gratis para construir tu historial médico y,
+            cuando necesites más espacio y funciones, dar el siguiente paso sin letras chiquitas raras.
+          </p>
+        </div>
+
+        <div class="pricing-grid">
+          <article class="price-card" data-reveal>
+            <h3 class="price-plan">Free</h3>
+            <p class="price-desc">Para empezar tu historial médico digital sin fricción.</p>
+
+            <div class="price-amount">
+              <strong>$0</strong>
+              <span>siempre</span>
+            </div>
+
+            <ul class="price-list">
+              <li>Perfil médico personal</li>
+              <li>Registro de alergias y medicamentos</li>
+              <li>Subida de documentos médicos</li>
+              <li>Resumen de salud automático</li>
+              <li>Compartir resumen con tu médico</li>
+              <li><strong>500 MB de almacenamiento</strong></li>
+            </ul>
+
+            <a class="btn btn--secondary" href="#cta">Empezar gratis</a>
+          </article>
+
+          <article class="price-card price-card--featured" data-reveal>
+            <span class="price-badge">Más elegido</span>
+            <h3 class="price-plan">Plus</h3>
+            <p class="price-desc">Para pacientes que quieren tener control completo de su información médica.</p>
+
+            <div class="price-amount">
+              <strong>$79</strong>
+              <span>MXN / mes</span>
+            </div>
+
+            <p class="price-note">o $790 MXN al año</p>
+
+            <ul class="price-list">
+              <li>Todo lo del plan Free</li>
+              <li><strong>2.5 GB de almacenamiento médico</strong></li>
+              <li>Análisis automático de documentos</li>
+              <li>Historial médico cronológico</li>
+              <li>Recordatorios de medicamentos</li>
+              <li>Exportación de resumen médico en PDF</li>
+              <li>Compartir con múltiples médicos</li>
+            </ul>
+
+            <a class="btn btn--primary" href="#cta">Quiero acceso anticipado</a>
+          </article>
+
+          <article class="price-card" data-reveal>
+            <h3 class="price-plan">Familiar</h3>
+            <p class="price-desc">Administra la salud de tu familia en un solo lugar.</p>
+
+            <div class="price-amount">
+              <strong>$169</strong>
+              <span>MXN / mes</span>
+            </div>
+
+            <ul class="price-list">
+              <li>Hasta <strong>5 integrantes</strong></li>
+              <li><strong>3 GB por integrante</strong></li>
+              <li>Todo lo del plan Plus</li>
+              <li>Gestión de perfiles familiares</li>
+              <li>Historial médico organizado por persona</li>
+              <li>Ideal para hijos, padres o adultos mayores</li>
+            </ul>
+
+            <a class="btn btn--secondary" href="#cta">Conocer plan familiar</a>
+          </article>
+        </div>
+
+        <p class="pricing-footnote" data-reveal>
+          Kura se encuentra en fase de acceso anticipado. Los primeros usuarios podrán obtener beneficios especiales,
+          prioridad de entrada y precios preferenciales cuando abramos el servicio públicamente.
+        </p>
+      </div>
+    </section>
+
+    <section id="app" class="section gallery">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <h2>Una app que se ve como producto real.</h2>
+          <p>
+            Nada de pantallas genéricas llenas de iconitos porque sí. Estas vistas muestran el flujo real del MVP:
+            registro, perfil, escaneo, captura, análisis y resumen médico.
+          </p>
+        </div>
+      </div>
+
+      <div class="gallery__track">
+        <article class="gallery-card"><img src="./01-wf-kura.png" alt="Pantalla inicial de Kura" /></article>
+        <article class="gallery-card"><img src="./02-wf-kura.png" alt="Registro de Kura" /></article>
+        <article class="gallery-card"><img src="./03-wf-kura.png" alt="Registro de cuenta de Kura" /></article>
+        <article class="gallery-card"><img src="./04-wf-kura.png" alt="Dashboard de Kura" /></article>
+        <article class="gallery-card"><img src="./05-wf-kura.png" alt="Completar perfil de salud en Kura" /></article>
+        <article class="gallery-card"><img src="./06-wf-kura.png" alt="Tutorial de escaneo en Kura" /></article>
+        <article class="gallery-card"><img src="./07-wf-kura.png" alt="Escáner de documento en Kura" /></article>
+        <article class="gallery-card"><img src="./08-wf-kura.png" alt="Captura de documento en Kura" /></article>
+        <article class="gallery-card"><img src="./09-wf-kura.png" alt="Procesamiento de receta en Kura" /></article>
+        <article class="gallery-card"><img src="./10-wf-kura.png" alt="Análisis completado en Kura" /></article>
+        <article class="gallery-card"><img src="./11-wf-kura.png" alt="Historial médico dentro de Kura" /></article>
+        <article class="gallery-card"><img src="./12-wf-kura.png" alt="Resumen médico en Kura" /></article>
+
+        <article class="gallery-card"><img src="./01-wf-kura.png" alt="Pantalla inicial de Kura" /></article>
+        <article class="gallery-card"><img src="./02-wf-kura.png" alt="Registro de Kura" /></article>
+        <article class="gallery-card"><img src="./03-wf-kura.png" alt="Registro de cuenta de Kura" /></article>
+        <article class="gallery-card"><img src="./04-wf-kura.png" alt="Dashboard de Kura" /></article>
+        <article class="gallery-card"><img src="./05-wf-kura.png" alt="Completar perfil de salud en Kura" /></article>
+        <article class="gallery-card"><img src="./06-wf-kura.png" alt="Tutorial de escaneo en Kura" /></article>
+        <article class="gallery-card"><img src="./07-wf-kura.png" alt="Escáner de documento en Kura" /></article>
+        <article class="gallery-card"><img src="./08-wf-kura.png" alt="Captura de documento en Kura" /></article>
+        <article class="gallery-card"><img src="./09-wf-kura.png" alt="Procesamiento de receta en Kura" /></article>
+        <article class="gallery-card"><img src="./10-wf-kura.png" alt="Análisis completado en Kura" /></article>
+        <article class="gallery-card"><img src="./11-wf-kura.png" alt="Historial médico dentro de Kura" /></article>
+        <article class="gallery-card"><img src="./12-wf-kura.png" alt="Resumen médico en Kura" /></article>
+      </div>
+    </section>
+
+    <section id="historia" class="section">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <h2>Antes cargabas papeles. Ahora cargas contexto.</h2>
+          <p>
+            La diferencia no es estética. Es operativa. Kura convierte documentos dispersos en información útil para consultas,
+            seguimiento médico y memoria personal.
+          </p>
+        </div>
+
+        <div class="compare">
+          <article class="compare-card compare-card--chaos" data-reveal>
+            <h3>Antes</h3>
+            <div class="chaos-list">
+              <div class="chaos-item">La receta quedó en una foto perdida del celular.</div>
+              <div class="chaos-item">El resultado del laboratorio llegó por correo y nadie sabe dónde quedó.</div>
+              <div class="chaos-item">En consulta vuelves a contar tu historia desde cero.</div>
+              <div class="chaos-item">Cada especialista ve una parte distinta de tu salud.</div>
+            </div>
+          </article>
+
+          <article class="compare-card compare-card--order" data-reveal>
+            <h3>Con Kura</h3>
+            <div class="order-list">
+              <div class="order-item">Tus documentos viven en un archivo médico personal y ordenado.</div>
+              <div class="order-item">Medicamentos, notas y resultados quedan resumidos y navegables.</div>
+              <div class="order-item">Llegas con contexto a cada consulta.</div>
+              <div class="order-item">Compartes tu historial cuando tú lo decides.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="inversion" class="section">
+      <div class="container">
+        <div class="section__head" data-reveal>
+          <h2>¿Te interesa invertir en el futuro de la salud digital?</h2>
+          <p>
+            Kura está construyendo una forma más simple, portátil y segura de organizar la información médica del paciente.
+            Estamos desarrollando el MVP y abriendo conversaciones con personas interesadas en impulsar su crecimiento.
+          </p>
+        </div>
+
+        <div class="investor-panel" data-reveal>
+          <div class="investor-panel__copy">
+            <h3>Buscamos aliados, no solo capital.</h3>
+            <p>
+              Kura nace para resolver un problema brutalmente común: la información médica del paciente está dispersa,
+              incompleta y difícil de compartir cuando más se necesita.
+            </p>
+            <p>
+              Nuestro enfoque combina experiencia de usuario, procesamiento documental y estructura clínica para convertir
+              recetas, estudios y documentos reales en un historial médico útil y compartible.
+            </p>
+
+            <div class="investor-points">
+              <div>Modelo inicial eficiente en costos, con operación temprana sobre infraestructura ya disponible.</div>
+              <div>Potencial claro en paciente digital, salud familiar y futuras alianzas con actores del sector salud.</div>
+              <div>Interés actual en conversaciones con personas que quieran invertir o sumar valor estratégico.</div>
+            </div>
+          </div>
+
+          <aside class="investor-panel__cta">
+            <h4>¿Quieres conocer la oportunidad?</h4>
+            <p>
+              Si te interesa recibir información inicial sobre la visión, el modelo de negocio y la oportunidad de inversión en Kura,
+              escríbenos por WhatsApp.
+            </p>
+            <a
+              class="btn btn--primary"
+              href="https://wa.me/5215617019648?text=Hola,%20me%20interesa%20conocer%20m%C3%A1s%20sobre%20la%20oportunidad%20de%20inversi%C3%B3n%20en%20Kura"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Hablar por WhatsApp
+            </a>
+            <div class="investor-mini">
+              Te compartiremos información inicial y, si hace sentido, agendamos una conversación más seria.
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="cta" class="cta-band">
+      <div class="container">
+        <div class="cta-card" data-reveal>
+          <h2>Tu historia médica ya existe. Solo falta organizarla.</h2>
+          <p>
+            Kura está diseñada para ayudarte a construir un historial médico personal claro, privado y siempre disponible.
+            Empieza gratis, guarda tus primeros documentos y toma el control de tu información médica.
+          </p>
+          <div class="cta-card__actions">
+            <a class="btn btn--primary" href="https://wa.me/5215617019648?text=Hola,%20quiero%20conocer%20m%C3%A1s%20sobre%20Kura%20y%20su%20acceso%20anticipado" target="_blank" rel="noopener noreferrer">Escribirme por WhatsApp</a>
+            <a class="btn btn--secondary" href="#pricing">Ver planes</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div class="brand" aria-label="Kura">
+        <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="16" cy="12" r="4.5" fill="#fff"/>
+          <circle cx="16" cy="52" r="4.5" fill="#fff"/>
+          <circle cx="54" cy="12" r="4.5" fill="#fff"/>
+          <circle cx="54" cy="52" r="4.5" fill="#fff"/>
+          <path d="M16 16V48" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+          <path d="M16 32L54 12" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+          <path d="M34 24L54 52" stroke="#FF4F8B" stroke-width="4.8" stroke-linecap="round"/>
+        </svg>
+        <span>Kura</span>
+      </div>
+
+      <div>La memoria de tu salud.</div>
+
+      <div class="footer-links">
+        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#app">La app</a>
+        <a href="#pricing">Planes</a>
+        <a href="#inversion">Inversión</a>
+        <a href="#cta">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+
+    const stepCards = document.querySelectorAll('.step');
+    const storyImages = document.querySelectorAll('.story-image');
+
+    function activateStep(index) {
+      stepCards.forEach((card, i) => card.classList.toggle('active', i === index));
+      storyImages.forEach((img, i) => img.classList.toggle('active', i === index));
+    }
+
+    stepCards.forEach((card) => {
+      card.addEventListener('mouseenter', () => activateStep(Number(card.dataset.step)));
+      card.addEventListener('click', () => activateStep(Number(card.dataset.step)));
+    });
+
+    const stepObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          activateStep(Number(entry.target.dataset.step));
+        }
+      });
+    }, { threshold: 0.7 });
+
+    stepCards.forEach((card) => stepObserver.observe(card));
+  </script>
+</body>
+</html>
